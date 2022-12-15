@@ -6,7 +6,7 @@ class lavadoraDifusa:
     #definición de las variables de entrada
     grado_suciedad = ctrl.Antecedent(np.arange(0, 101, 1),'grado_suciedad')
     nivel_suciedad = ctrl.Antecedent(np.arange(0, 101, 1),'nivel_suciedad')
-    tipo_ropa = ctrl.Antecedent(np.arange(0, 3, 1),'tipo_ropa')
+    tipo_ropa = ctrl.Antecedent(np.arange(0, 101, 1),'tipo_ropa')
     #definición de las variables de salida
     tiempo_lavado = ctrl.Consequent(np.arange(0, 61, 1),'tiempo_lavado')
     #definición los conjuntos difusos
@@ -154,28 +154,28 @@ class lavadoraDifusa:
     lavado_ctrl_tf = ctrl.ControlSystem([rtf1,rtf2,rtf3,rtf4,rtf5,rtf6,rtf7,rtf8,rtf9,rtf10,rtf11,rtf12,rtf13,rtf14,rtf15,rtf16,rtf17,rtf18,rtf19,rtf20,rtf21,rtf22,rtf23,rtf24,rtf25])
     lavadoTf = ctrl.ControlSystemSimulation(lavado_ctrl_tf)
 
-    def lavado_fuzzy(gradoS_Fuzzy, nivelS_Fuzzy, tipo_ropa_Fuzzy):
-        if tipo_ropa_Fuzzy == 0:
+    def lavado_fuzzy(gradoS_Fuzzy, nivelS_Fuzzy, tipo_ropa_Fuzzy, nivel_ropa_Fuzzy):
+        if tipo_ropa_Fuzzy == lavadoraDifusa.tipo_ropa['Gruesa'].label:
             lavadoraDifusa.lavadoTg.input['grado_suciedad'] = gradoS_Fuzzy
             lavadoraDifusa.lavadoTg.input['nivel_suciedad'] = nivelS_Fuzzy
-            lavadoraDifusa.lavadoTg.input['tipo_ropa'] = tipo_ropa_Fuzzy    
+            lavadoraDifusa.lavadoTg.input['tipo_ropa'] = nivel_ropa_Fuzzy    
             #computar el sistema difuso respecto a las variables de entrada
             lavadoraDifusa.lavadoTg.compute()
             lavadoraDifusa.tiempo_lavado.view(sim=lavadoraDifusa.lavadoTg)
             return lavadoraDifusa.lavadoTg.output['tiempo_lavado']
-        elif tipo_ropa_Fuzzy == 1:
-            lavadoraDifusa.lavadoTf.input['grado_suciedad'] = gradoS_Fuzzy
-            lavadoraDifusa.lavadoTf.input['nivel_suciedad'] = nivelS_Fuzzy
-            lavadoraDifusa.lavadoTf.input['tipo_ropa'] = tipo_ropa_Fuzzy    
-            #computar el sistema difuso respecto a las variables de entrada
-            lavadoraDifusa.lavadoTf.compute()
-            lavadoraDifusa.tiempo_lavado.view(sim=lavadoraDifusa.lavadoTf)
-            return lavadoraDifusa.lavadoTf.output['tiempo_lavado']
-        elif tipo_ropa_Fuzzy == 2:
+        elif tipo_ropa_Fuzzy == lavadoraDifusa.tipo_ropa['Media'].label:
             lavadoraDifusa.lavadoTm.input['grado_suciedad'] = gradoS_Fuzzy
             lavadoraDifusa.lavadoTm.input['nivel_suciedad'] = nivelS_Fuzzy
-            lavadoraDifusa.lavadoTm.input['tipo_ropa'] = tipo_ropa_Fuzzy    
+            lavadoraDifusa.lavadoTm.input['tipo_ropa'] = nivel_ropa_Fuzzy    
             #computar el sistema difuso respecto a las variables de entrada
             lavadoraDifusa.lavadoTm.compute()
             lavadoraDifusa.tiempo_lavado.view(sim=lavadoraDifusa.lavadoTm)
             return lavadoraDifusa.lavadoTm.output['tiempo_lavado']
+        elif tipo_ropa_Fuzzy == lavadoraDifusa.tipo_ropa['Fina'].label:
+            lavadoraDifusa.lavadoTf.input['grado_suciedad'] = gradoS_Fuzzy
+            lavadoraDifusa.lavadoTf.input['nivel_suciedad'] = nivelS_Fuzzy
+            lavadoraDifusa.lavadoTf.input['tipo_ropa'] = nivel_ropa_Fuzzy    
+            #computar el sistema difuso respecto a las variables de entrada
+            lavadoraDifusa.lavadoTf.compute()
+            lavadoraDifusa.tiempo_lavado.view(sim=lavadoraDifusa.lavadoTf)
+            return lavadoraDifusa.lavadoTf.output['tiempo_lavado']
