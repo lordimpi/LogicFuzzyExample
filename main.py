@@ -16,10 +16,4 @@ if __name__ == "__main__":
     tipo_ropa = float (input("ingrese un tipo de ropa entre [0-100]: "))
     tiempo_lavado = parametros_computo_lavado(grado_suciedad, nivel_suciedad, tipo_ropa)
     print(tiempo_lavado)
-    # nivel_ropa_Fuzzy = 0.0
-    # if tipo_ropa.lower() == "gruesa":
-    #     nivel_ropa_Fuzzy = float (input("ingrese un nivel de ropa Gruesa entre [0-100]: "))
-    # elif tipo_ropa.lower() == "media":
-    #     nivel_ropa_Fuzzy = float (input("ingrese un nivel de ropa Media entre [0-100]: "))
-    # elif tipo_ropa.lower() == "fina":
-    #     nivel_ropa_Fuzzy = float (input("ingrese un nivel de ropa Fina entre [0-100]: "))
+    input("Pulse una tecla para finalizar...")
